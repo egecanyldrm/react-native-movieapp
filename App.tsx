@@ -1,24 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-import Movie from './src/screens/Movie';
-import MovieDetail from './src/screens/MovieDetail';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import Navigation from './src/navigation/Navigation';
+import { useColorScheme } from 'react-native';
+import { colors } from './src/styles/general';
 
-const RootStack = createNativeStackNavigator();
-
-export default function App() {
-  return (
-    <NavigationContainer >
-      <StatusBar style="auto" />
-      <RootStack.Navigator>
-        <RootStack.Group>
-          <RootStack.Screen name="Movie" component={Movie} />
-        </RootStack.Group>
-        <RootStack.Group screenOptions={{ presentation: 'modal' }}>
-          <RootStack.Screen name="Movie Detail" component={MovieDetail} />
-        </RootStack.Group>
-      </RootStack.Navigator>
-    </NavigationContainer>
-  );
+const DarkTheme = {
+  dark: true,
+  colors: {
+    primary: 'rgb(10, 132, 255)',
+    background: colors.primary.soft,
+    card: 'rgb(18, 18, 18)',
+    text: '#FFFFFF',
+    border: 'rgb(39, 39, 41)',
+    notification: 'rgb(255, 69, 58)'
+  }
 }
-
+export default function App(): JSX.Element {
+  const scheme = useColorScheme();
+  return (
+    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Navigation />
+    </NavigationContainer>
+  )
+}
